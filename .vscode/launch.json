@@ -11,9 +11,9 @@
       "mode": "auto",
       "program": "${workspaceFolder}/cmd/geth",
       "args": [
-        "--datadir ${workspaceFolder}/data",
+        "--datadir=${workspaceFolder}/data",
         "--http",
-        "--http.api eth,web3,net"
+        "--http.api=eth,web3,net"
       ]
     }
   ]
