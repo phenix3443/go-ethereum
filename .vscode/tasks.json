@@ -1,0 +1,49 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "command": "bash",
+  "args": ["-c"],
+  "tasks": [
+    {
+      "label": "start clef",
+      "type": "shell",
+      "args": [
+        "clef --keystore data/keystore --configdir data/clef --chainid 11155111"
+      ]
+    },
+    {
+      "label": "start geth",
+      "type": "shell",
+      "args": [
+        "geth",
+        "--sepolia",
+        "--datadir data",
+        "--authrpc.addr localhost",
+        "--authrpc.port 8551",
+        "--authrpc.vhosts localhost",
+        "--authrpc.jwtsecret data/jwtsecret",
+        "--http",
+        "--http.api eth,net",
+        "--signer data/clef/clef.ipc"
+      ]
+    },
+    {
+      "label": "install lighthouse",
+      "type": "shell",
+      "args": ["brew install lighthouse &&  mkdir lighthouse && cd lighthouse"]
+    },
+    {
+      "label": "start lighthouse",
+      "type": "shell",
+      "args": [
+        "lighthouse bn ",
+        "--network sepolia",
+        "--execution-endpoint http://localhost:8551",
+        "--execution-jwt ../data/jwtsecret ",
+        "--checkpoint-sync-url https://sepolia.beaconstate.info",
+        "--http"
+      ]
+    }
+  ]
+}
