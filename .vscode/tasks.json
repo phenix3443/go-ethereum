@@ -6,41 +6,57 @@
     {
       "label": "create data",
       "type": "shell",
-      "command": "mkdir -p ${workspaceFolder}/data/keystore"
+      "command": "mkdir -p ${workspaceFolder}/data/sepolia"
+    },
+    {
+      "label": "create sepolia data",
+      "type": "shell",
+      "command": "mkdir -p sepolia",
+      "options": {
+        "cwd": "${workspaceFolder}/data/"
+      }
     },
     {
       "label": "create account",
-      "dependsOn": ["create data"],
       "type": "shell",
-      "command": "clef",
-      "args": ["newaccount", "--keystore=${workspaceFolder}/data/keystore"]
+      "dependsOn": ["create data"],
+      "command": "mkdir -p clef/keystore && clef newaccount --keystore=clef/keystore",
+      "options": {
+        "cwd": "${workspaceFolder}/data/"
+      }
     },
     {
       "label": "start clef",
       "type": "shell",
-      "dependsOn": ["create data"],
       "command": "clef",
       "args": [
-        "--keystore=${workspaceFolder}/data/keystore",
-        "--configdir=${workspaceFolder}/data/clef",
+        "--keystore=clef/keystore",
+        "--configdir=clef",
         "--chainid=11155111"
-      ]
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/data/"
+      }
     },
     {
       "label": "start geth",
       "type": "shell",
+      "dependsOn": ["create sepolia data"],
       "command": "geth",
       "args": [
         "--sepolia",
-        "--datadir=${workspaceFolder}/data",
+        "--datadir=sepolia",
         "--authrpc.addr=localhost",
         "--authrpc.port=8551",
         "--authrpc.vhosts=localhost",
-        "--authrpc.jwtsecret=${workspaceFolder}/data/jwtsecret",
+        "--authrpc.jwtsecret=sepolia/jwtsecret",
         "--http",
         "--http.api=eth,net",
-        "--signer=${workspaceFolder}/data/clef/clef.ipc"
-      ]
+        "--signer=clef/clef.ipc"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/data/"
+      }
     },
     {
       "label": "install lighthouse",
@@ -54,13 +70,16 @@
       "command": "lighthouse",
       "args": [
         "bn",
-        "--datadir=${workspaceFolder}/data",
+        "--datadir=sepolia",
         "--network=sepolia",
         "--execution-endpoint=http://localhost:8551",
-        "--execution-jwt=${workspaceFolder}/data/jwtsecret",
+        "--execution-jwt=sepolia/jwtsecret",
         "--checkpoint-sync-url=https://sepolia.beaconstate.info",
         "--http"
-      ]
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/data"
+      }
     }
   ]
 }
