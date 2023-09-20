@@ -4,59 +4,60 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "create data",
+      "label": "send eth",
       "type": "shell",
-      "command": "mkdir -p ${workspaceFolder}/data/sepolia"
+      "command": "cast send 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --value 1000ether ",
+      "options": {
+        "env": {
+          "ETH_RPC_URL": "http://localhost:8545",
+          "ETH_KEYSTORE": "data/keystore",
+          "ETH_FROM": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+        }
+      },
+      "group": "test"
     },
     {
-      "label": "create sepolia data",
+      "label": "build",
       "type": "shell",
-      "command": "mkdir -p sepolia",
-      "options": {
-        "cwd": "${workspaceFolder}/data/"
-      }
+      "command": "make all",
+      "group": "build"
+    },
+    {
+      "label": "import private key",
+      "type": "shell",
+      "command": "build/bin/geth account import --datadir=data --password data/password.txt data/privateKey.txt"
     },
     {
       "label": "create account",
       "type": "shell",
       "dependsOn": ["create data"],
-      "command": "mkdir -p clef/keystore && clef newaccount --keystore=clef/keystore",
-      "options": {
-        "cwd": "${workspaceFolder}/data/"
-      }
+      "command": "clef newaccount --keystore=/data/keystore"
     },
     {
       "label": "start clef",
       "type": "shell",
       "command": "clef",
       "args": [
-        "--keystore=clef/keystore",
-        "--configdir=clef",
+        "--keystore=data/keystore",
+        "--configdir=data/clef",
         "--chainid=11155111"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/data/"
-      }
+      ]
     },
     {
       "label": "start geth",
       "type": "shell",
-      "dependsOn": ["create sepolia data"],
       "command": "geth",
       "args": [
         "--sepolia",
-        "--datadir=sepolia",
+        "--datadir=data/",
         "--authrpc.addr=localhost",
         "--authrpc.port=8551",
         "--authrpc.vhosts=localhost",
-        "--authrpc.jwtsecret=sepolia/jwtsecret",
+        "--authrpc.jwtsecret=data/jwtsecret",
         "--http",
         "--http.api=eth,net",
-        "--signer=clef/clef.ipc"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/data/"
-      }
+        "--signer=data/clef/clef.ipc"
+      ]
     },
     {
       "label": "install lighthouse",
@@ -65,21 +66,17 @@
     },
     {
       "label": "start lighthouse",
-      "dependsOn": ["install lighthouse"],
       "type": "shell",
       "command": "lighthouse",
       "args": [
         "bn",
-        "--datadir=sepolia",
+        "--datadir=data",
         "--network=sepolia",
         "--execution-endpoint=http://localhost:8551",
-        "--execution-jwt=sepolia/jwtsecret",
+        "--execution-jwt=data/jwtsecret",
         "--checkpoint-sync-url=https://sepolia.beaconstate.info",
         "--http"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}/data"
-      }
+      ]
     }
   ]
 }
