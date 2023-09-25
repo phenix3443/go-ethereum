@@ -49,10 +49,8 @@ profile.cov
 **/yarn-error.log
 logs/
 
-# local test
+data/sepolia
+data/beacon
+data/keystore
 
-data/*
-!data/password.txt
-!data/privateKey.txt
-!data/genesis.json
-audit.log
+

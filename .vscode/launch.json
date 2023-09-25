@@ -5,12 +5,27 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Geth",
+      "name": "sepolia",
       "type": "go",
       "request": "launch",
       "mode": "auto",
       "program": "cmd/geth",
-      "args": ["--datadir=data", "--http", "--http.api=eth,web3,net"]
+      "args": [
+        "--sepolia",
+        "--datadir=${workspaceFolder}/data/sepolia",
+        "--keystore=${workspaceFolder}/data/keystore",
+        "--authrpc.addr=localhost",
+        "--authrpc.port=8551",
+        "--authrpc.vhosts=localhost",
+        "--authrpc.jwtsecret=${workspaceFolder}/data/jwtsecret",
+        "--http",
+        "--http.api=eth,web3,net",
+        "--ws",
+        "--ws.api=eth,web3,net",
+        "--signer=${workspaceFolder}/data/clef/clef.ipc"
+      ],
+      "preLaunchTask": "Prepare Sepolia",
+      "postDebugTask": "Clean Keystore"
     },
     {
       "name": "dev mode",
@@ -21,10 +36,12 @@
       "args": [
         "--dev",
         "--http",
-        "--http.api=eth,web3,net",
+        "--http.api=eth,web3,net,greeting",
+        "--ws",
+        "--ws.api=eth,web3,net,greeting",
         "--miner.etherbase=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        "--datadir=data",
-        "--password=data/password.txt"
+        "--datadir=${workspaceFolder}/data",
+        "--password=${workspaceFolder}/data/password.txt"
       ]
     }
   ]

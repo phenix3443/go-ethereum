@@ -3,6 +3,7 @@
   // for the documentation about the tasks.json format
   "version": "2.0.0",
   "tasks": [
+    // send eth
     {
       "label": "Send Eth",
       "type": "shell",
@@ -17,67 +18,157 @@
       ],
       "group": "test"
     },
+    // build geth
     {
-      "label": "build",
+      "label": "Build",
       "type": "shell",
       "command": "make all",
       "group": "build"
     },
     {
-      "label": "import private key",
+      "label": "Create Keystore",
       "type": "shell",
-      "command": "build/bin/geth account import --datadir=data --password data/password.txt data/privateKey.txt"
+      "command": "mkdir -p ${workspaceFolder}/data/keystore",
+      "presentation": {
+        "close": true
+      }
     },
+    // import private key
     {
-      "label": "create account",
+      "label": "Import Private Key",
+      "type": "shell",
+      "dependsOn": ["Create Keystore"],
+      "command": "build/bin/geth",
+      "args": [
+        "account",
+        "import",
+        "--keystore=${workspaceFolder}/data/keystore",
+        "--password=${workspaceFolder}/data/password.txt",
+        "${workspaceFolder}/data/privateKey.txt"
+      ],
+      "presentation": {
+        "close": true
+      }
+    },
+    // create account
+    {
+      "label": "Create Account",
       "type": "shell",
       "dependsOn": ["create data"],
       "command": "clef newaccount --keystore=/data/keystore"
     },
+    // start clef
     {
-      "label": "start clef",
+      "label": "Start Clef",
       "type": "shell",
+      "dependsOn": ["Import Private Key"],
       "command": "clef",
       "args": [
-        "--keystore=data/keystore",
-        "--configdir=data/clef",
+        "--keystore=${workspaceFolder}/data/keystore",
+        "--configdir=${workspaceFolder}/data/clef",
         "--chainid=11155111"
-      ]
+      ],
+      "presentation": {
+        "panel": "dedicated",
+        "close": true
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "noproblem"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Clef is an account management tool",
+          "endsPattern": "extapi_ipc"
+        }
+      }
     },
+    // start geth
     {
-      "label": "start geth",
+      "label": "Start Geth",
       "type": "shell",
-      "command": "geth",
+      "command": "build/cmd/geth",
       "args": [
         "--sepolia",
-        "--datadir=data/",
+        "--datadir=${workspaceFolder}/data/sepolia",
+        "--keystore=${workspaceFolder}/data/keystore",
         "--authrpc.addr=localhost",
         "--authrpc.port=8551",
         "--authrpc.vhosts=localhost",
-        "--authrpc.jwtsecret=data/jwtsecret",
+        "--authrpc.jwtsecret=${workspaceFolder}/data/jwtsecret",
         "--http",
         "--http.api=eth,net",
-        "--signer=data/clef/clef.ipc"
+        "--signer=${workspaceFolder}/data/clef/clef.ipc"
       ]
     },
+    // Install Lighthouse
     {
-      "label": "install lighthouse",
+      "label": "Install Lighthouse",
       "type": "shell",
       "command": ["brew install lighthouse"]
     },
+    // start consensus layer node
     {
-      "label": "start lighthouse",
+      "label": "Start CE",
       "type": "shell",
       "command": "lighthouse",
       "args": [
         "bn",
-        "--datadir=data",
+        "--datadir=${workspaceFolder}/data/sepolia",
         "--network=sepolia",
         "--execution-endpoint=http://localhost:8551",
-        "--execution-jwt=data/jwtsecret",
+        "--execution-jwt=${workspaceFolder}/data/jwtsecret",
         "--checkpoint-sync-url=https://sepolia.beaconstate.info",
         "--http"
-      ]
+      ],
+      "presentation": {
+        "panel": "dedicated",
+        "close": true
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "noproblem"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Lighthouse started",
+          "endsPattern": "Starting beacon chain"
+        }
+      }
+    },
+    // prepare sepolia
+    {
+      "label": "Prepare Sepolia",
+      "dependsOn": ["Start CE", "Start Clef"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false,
+        "close": true
+      }
+    },
+    // clean geth
+    {
+      "label": "Clean Geth",
+      "type": "shell",
+      "command": "git clean -f -d",
+      "presentation": {
+        "close": true
+      }
+    },
+    // clean keystore
+    {
+      "label": "Clean Keystore",
+      "type": "shell",
+      "command": "rm -fr ${workspaceFolder}/data/keystore",
+      "presentation": {
+        "close": true
+      }
     }
   ]
 }
