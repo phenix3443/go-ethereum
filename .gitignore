@@ -49,8 +49,4 @@ profile.cov
 **/yarn-error.log
 logs/
 
-data/sepolia
-data/beacon
-data/keystore
-
 
