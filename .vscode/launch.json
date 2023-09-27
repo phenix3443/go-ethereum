@@ -41,6 +41,7 @@
         "--ws.api=eth,web3,net,greeting",
         "--miner.etherbase=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "--datadir=${workspaceFolder}/data/dev",
+        "--keystore=${workspaceFolder}/data/keystore",
         "--password=${workspaceFolder}/data/password.txt"
       ],
       "preLaunchTask": "Import Private Key",
