@@ -9,7 +9,11 @@
     "constantinopleBlock": 0,
     "petersburgBlock": 0,
     "istanbulBlock": 0,
+    "muirGlacierBlock": 0,
     "berlinBlock": 0,
+    "londonBlock": 0,
+    "arrowGlacierBlock": 0,
+    "grayGlacierBlock": 0,
     "clique": {
       "period": 0,
       "epoch": 30000
@@ -17,10 +21,16 @@
   },
   "difficulty": "1",
   "gasLimit": "8000000",
-  "extradata": "0x00000000000000000000000000000000000000000000000000000000000000000xf39fd6e51aad88f6f4ce6ab8827279cfffb922660000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "extradata": "0x0000000000000000000000000000000000000000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb922660000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
   "alloc": {
-    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": { "balance": "300000000000" },
-    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": { "balance": "300000000000" },
-    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": { "balance": "300000000000" }
+    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
+      "balance": "0xfffffffffffffacbbb7ca13a7fffffff"
+    },
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": {
+      "balance": "0xfffffffffffffacbbb7ca13a7fffffff"
+    },
+    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": {
+      "balance": "0xfffffffffffffacbbb7ca13a7fffffff"
+    }
   }
 }

@@ -109,7 +109,7 @@
       "args": [
         "--keystore=${workspaceFolder}/data/keystore",
         "--configdir=${workspaceFolder}/data/clef",
-        "--chainid=11155111"
+        "--chainid=12345"
       ],
       "presentation": {
         "panel": "dedicated",
