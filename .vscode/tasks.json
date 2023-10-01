@@ -176,8 +176,8 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "Lighthouse started",
-          "endsPattern": "Starting beacon chain"
+          "beginsPattern": "Logging to file",
+          "endsPattern": "Lighthouse started"
         }
       }
     },
