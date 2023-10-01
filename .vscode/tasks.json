@@ -16,7 +16,10 @@
         "--async",
         "--rpc-url=http://localhost:8545"
       ],
-      "group": "test"
+      "group": "test",
+      "presentation": {
+        // "close": true
+      }
     },
     // build geth
     {
@@ -36,6 +39,14 @@
     // import private key
     {
       "label": "Import Private Key",
+      "dependsOn": [
+        "Import Private Key 1",
+        "Import Private Key 2",
+        "Import Private Key 3"
+      ]
+    },
+    {
+      "label": "Import Private Key 1",
       "type": "shell",
       "dependsOn": ["Create Keystore"],
       "command": "build/bin/geth",
@@ -45,6 +56,38 @@
         "--keystore=${workspaceFolder}/data/keystore",
         "--password=${workspaceFolder}/data/password.txt",
         "${workspaceFolder}/data/privateKey.txt"
+      ],
+      "presentation": {
+        "close": true
+      }
+    },
+    {
+      "label": "Import Private Key 2",
+      "type": "shell",
+      "dependsOn": ["Create Keystore"],
+      "command": "build/bin/geth",
+      "args": [
+        "account",
+        "import",
+        "--keystore=${workspaceFolder}/data/keystore",
+        "--password=${workspaceFolder}/data/password.txt",
+        "${workspaceFolder}/data/privateKey_2.txt"
+      ],
+      "presentation": {
+        "close": true
+      }
+    },
+    {
+      "label": "Import Private Key 3",
+      "type": "shell",
+      "dependsOn": ["Create Keystore"],
+      "command": "build/bin/geth",
+      "args": [
+        "account",
+        "import",
+        "--keystore=${workspaceFolder}/data/keystore",
+        "--password=${workspaceFolder}/data/password.txt",
+        "${workspaceFolder}/data/privateKey_3.txt"
       ],
       "presentation": {
         "close": true
@@ -84,7 +127,7 @@
         }
       }
     },
-    // start geth
+    // start sepolia
     {
       "label": "Start Geth",
       "type": "shell",

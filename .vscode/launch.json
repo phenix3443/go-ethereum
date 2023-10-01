@@ -44,8 +44,8 @@
         "--keystore=${workspaceFolder}/data/keystore",
         "--password=${workspaceFolder}/data/password.txt"
       ],
-      "preLaunchTask": "Import Private Key",
-      "postDebugTask": "Clean Geth"
+      "preLaunchTask": "Import Private Key"
+      // "postDebugTask": "Clean Geth"
     }
   ]
 }
