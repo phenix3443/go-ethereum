@@ -50,3 +50,5 @@ profile.cov
 logs/
 
 
+data/beacon
+data/sepolia
