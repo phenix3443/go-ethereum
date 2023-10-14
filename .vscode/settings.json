@@ -21,6 +21,7 @@
     "blockhash",
     "blocklogs",
     "blockprofilerate",
+    "blocktime",
     "bloombits",
     "bloomfilter",
     "Bootnodes",
@@ -31,6 +32,7 @@
     "chaindb",
     "chainhead",
     "chainmu",
+    "chainreader",
     "ckzg",
     "Compat",
     "consolecmd",
@@ -66,6 +68,8 @@
     "ethconfig",
     "ethdb",
     "Etherbase",
+    "ethone",
+    "ethservice",
     "Ethstats",
     "etype",
     "eventmux",
@@ -87,6 +91,7 @@
     "gballet",
     "gcmode",
     "gcproc",
+    "genblock",
     "gencodec",
     "gethdbdump",
     "ghash",
@@ -101,6 +106,7 @@
     "gspec",
     "gzipped",
     "hashdb",
+    "hasher",
     "hexutil",
     "Holesky",
     "hostnames",
@@ -296,6 +302,7 @@
     "vmerr",
     "vmodule",
     "websockets",
+    "Wijden",
     "yparity"
   ]
 }
